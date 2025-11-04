@@ -31,55 +31,77 @@ The Histogram of gray scale image and color image is shown.
 # Developed By: Daniel C
 # Register Number:212223240023
 # Input Grayscale Image and Color Image:
-
+from google.colab import files
 import cv2
+import numpy as np
 import matplotlib.pyplot as plt
-Gray_image = cv2.imread('tree.jpg')
-Color_image = cv2.imread('york.jpg')
-plt.imshow(Gray_image)
-plt.show()
-plt.imshow(Color_image)
-plt.show() 
 
-# Histogram of Grayscale Image and Green channel of Color Image:
-hist = cv2.calcHist([Gray_image],[0],None,[256],[0,256])
-hist1 = cv2.calcHist([Color_image],[1],None,[256],[0,256])
-plt.figure()
-plt.title("Histogram")
-plt.xlabel('grayscale value')
-plt.ylabel('pixel count')
-plt.stem(hist)
-plt.show()
-plt.figure()
-plt.title("Histogram of Color Image Green Channel")
-plt.xlabel('Intensity value')
-plt.ylabel('pixel count')
-plt.stem(hist1)
-plt.show()
+# 🔹 Step 1: Upload the image
+uploaded = files.upload()
 
-# Histogram Equalization of Grayscale Image:
-equ = cv2.equalizeHist(gray_image)
-cv2.imshow("Equalized Image",equ)
+# 🔹 Step 2: Automatically get the uploaded filename
+filename = next(iter(uploaded))
+print("✅ Uploaded file:", filename)
+
+# 🔹 Step 3: Read and process the image
+image = cv2.imread(filename)
+
+# Convert to grayscale
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Calculate histogram of original grayscale image
+hist_original = cv2.calcHist([gray_image], [0], None, [256], [0, 256])
+
+# Apply histogram equalization
+equalized_image = cv2.equalizeHist(gray_image)
+
+# Calculate histogram of equalized image
+hist_equalized = cv2.calcHist([equalized_image], [0], None, [256], [0, 256])
+
+# 🔹 Step 4: Plot results
+plt.figure(figsize=(10, 7))
+
+plt.subplot(2, 2, 1)
+plt.imshow(gray_image, cmap='gray')
+plt.title('Original Grayscale Image\n Name: Daniel C    Reg no: 212223240023')
+plt.axis('off')
+
+plt.subplot(2, 2, 2)
+plt.imshow(equalized_image, cmap='gray')
+plt.title('Equalized Image')
+plt.axis('off')
+
+plt.subplot(2, 2, 3)
+plt.plot(hist_original, color='black')
+plt.title('Original Histogram')
+plt.xlim([0, 256])
+
+plt.subplot(2, 2, 4)
+plt.plot(hist_equalized, color='black')
+plt.title('Equalized Histogram')
+plt.xlim([0, 256])
+
+plt.tight_layout()
+plt.show()
 
 
 
 ```
 ## Output:
-### Input Grayscale Image and Color Image
-<img width="532" height="522" alt="image" src="https://github.com/user-attachments/assets/ce9e6dbf-320c-427e-8065-3205e2fff995" />
+### Original Gray scale Image:
+<img width="556" height="421" alt="image" src="https://github.com/user-attachments/assets/f20b5157-64b1-4271-adbb-50b326c49b1e" />
 
-<img width="687" height="457" alt="image" src="https://github.com/user-attachments/assets/2ed0a72e-d257-4c99-8c4e-d0230453ee2e" />
+## Equalized Image:
+<img width="549" height="409" alt="image" src="https://github.com/user-attachments/assets/f6a1302c-6ee6-4ea4-9548-fe823bac073c" />
 
 
-### Histogram of Grayscale Image and any channel of Color Image
+### Histogram of Grayscale Image:
+<img width="651" height="432" alt="image" src="https://github.com/user-attachments/assets/7775005d-872f-4cff-9a8f-56fce5315794" />
 
-<img width="738" height="548" alt="image" src="https://github.com/user-attachments/assets/c21a1b66-d853-4497-81d2-66cca07be8c3" />
-
-<img width="746" height="580" alt="image" src="https://github.com/user-attachments/assets/54e6534e-ac83-4fa2-b7e1-85965bc72463" />
 
 ### Histogram Equalization of Grayscale Image.
 
-<img width="923" height="813" alt="image" src="https://github.com/user-attachments/assets/63104174-3aee-49c2-ae98-a0eb7099c226" />
+<img width="643" height="427" alt="image" src="https://github.com/user-attachments/assets/fbf30804-556c-499f-b398-caf8093ae4ef" />
 
 
 
